@@ -6,12 +6,10 @@
 }
 
 .button-light {
-    background-color: aliceblue;
     color: black;
 }
 
 .button-dark {
-    background-color: black;
     color: aliceblue;   
 }
 
@@ -19,4 +17,6 @@ button {
     padding: 0px 5px 0 5px;
     font-weight: bold;
     margin: 0 2px 0 2px;  
+    border: none;
+    background: none;
 }
