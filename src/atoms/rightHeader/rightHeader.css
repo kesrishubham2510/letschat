@@ -1,0 +1,12 @@
+.right-header {
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+text {
+    border: 2px solid green;
+    padding: 0 5px 0 5px;
+    font-weight: bold;
+    margin: 2px;
+}

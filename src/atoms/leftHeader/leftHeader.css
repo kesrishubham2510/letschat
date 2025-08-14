@@ -1,0 +1,12 @@
+.left-header {
+  width: 40%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+text {
+  border: 2px solid green;
+  padding: 0 5px 0 5px;
+  font-weight: bold;
+  margin: 2px;
+}
