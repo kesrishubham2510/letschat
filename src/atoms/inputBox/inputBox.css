@@ -1,0 +1,17 @@
+input {
+    margin: 10px;
+    height: 35px;
+    padding: 5px;
+    width: 90%;
+    border: 1px solid gainsboro;
+    background-color: azure;
+    border-radius: 30px;
+}
+
+label{
+    margin: 5px;
+}
+
+input:focus {
+    outline: none;
+}
