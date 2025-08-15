@@ -3,6 +3,7 @@
     width: min(50%, 400px);
     border: 2px solid whitesmoke;
     align-self: center;
+    border-radius: 30px;
 }
 
 .page-label {
@@ -23,6 +24,6 @@
     flex-direction: row;
 }
 
-text{
+p{
     font-weight: bold;
 }

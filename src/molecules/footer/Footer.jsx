@@ -2,11 +2,11 @@ import './footer.css';
 
 function Footer(){
     return <div className="footer">
-        <text>Github</text>
-        <text>Medium</text>
-        <text>LinkedIn</text>
-        <text>Instagram</text>
-        <text>Leetcode</text>
+        <p>Github</p>
+        <p>Medium</p>
+        <p>LinkedIn</p>
+        <p>Instagram</p>
+        <p>Leetcode</p>
     </div>
 }
 

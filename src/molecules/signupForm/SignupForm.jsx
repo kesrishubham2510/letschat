@@ -42,23 +42,39 @@ function SignupForm(props) {
         console.log('registering with:- ' + userData);
     }
 
+    function updateFirstName(event){
+        const {name, value} = event.target;
+        
+        setUserData((prevState)=>{
+            var updatedState = {
+                ...prevState,
+                [name] : value
+            }
+
+            return updatedState;
+        });
+    }
+
+
+
+
     return <div className="signupForm">
         <h1 className='page-label'>Registration</h1>
         <form onSubmit={register}>
-            <InputBox id={"firstName"} type="text" value={userData.firstName} onChange={register} label={"First name"} placeHolder="John"></InputBox>
+            <InputBox id={"firstName"} name="firstName" type="p" value={userData.firstName} onChange={updateFirstName} label={"First name"} placeHolder="John"></InputBox>
             <br />
-            <InputBox id={"lastName"} type="text" value={userData.lastName} onChange={register} label={"Last name"} placeHolder="Doe"></InputBox>
+            <InputBox id={"lastName"} name="lastName" type="p" value={userData.lastName} onChange={register} label={"Last name"} placeHolder="Doe"></InputBox>
             <br />
-            <InputBox id={"email"} type="text" value={userData.email} onChange={register} label={"Email"} placeHolder={"johndoe@example.com"}></InputBox>
+            <InputBox id={"email"}  name="email" type="p" value={userData.email} onChange={register} label={"Email"} placeHolder={"johndoe@example.com"}></InputBox>
             <br />
-            <InputBox id={"password"} type="text" value={userData.password} onChange={register} label={"Password"} placeHolder={""}></InputBox>
+            <InputBox id={"password"} name="password" type="p" value={userData.password} onChange={register} label={"Password"} placeHolder={""}></InputBox>
             <br />
-            <InputBox id={"confirmPassword"} value={userData.confirmPassword} onChange={register} label={"Confirm password"} placeHolder={""}></InputBox>
+            <InputBox id={"confirmPassword"} name="confirmPassword" value={userData.confirmPassword} onChange={register} label={"Confirm password"} placeHolder={""}></InputBox>
         </form>
         <div className='button-section'>
             <Button label={"Register"} style={registerButtonStyle} action={register} />
             <div className='alternate-section'>
-                <text>Already have an account ?</text>
+                <p>Already have an account ?</p>
                 <Button label={"Login"} style={loginButtonStyle} action={props.toggleForm} />
             </div>
         </div>

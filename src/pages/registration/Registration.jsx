@@ -9,6 +9,10 @@ function Registration(){
 
     const [isRegistration, setIsRegistration] = useState(true);
 
+    /* this class will perform the registration with the data received
+       from child component
+    */
+
     function toggleForm(){
         console.log("This is happening!!")
         setIsRegistration((isRegistration)=> !isRegistration);

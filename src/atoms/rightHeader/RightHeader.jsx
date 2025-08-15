@@ -13,10 +13,10 @@ function RightHeader() {
     }
 
     return <div className='right-header'>
-        <text>Home</text>
-        <text>About</text>
-        <text>Features</text>
-        <text>Contact</text>
+        <p>Home</p>
+        <p>About</p>
+        <p>Features</p>
+        <p>Contact</p>
         <div className='button-section'>
             <Button onClick={loginFunction} label="Login" />
             <Button onClick={signupFunction} label="Signup" />

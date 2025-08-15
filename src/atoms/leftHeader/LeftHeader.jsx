@@ -2,7 +2,7 @@ import './leftHeader.css';
 
 function LeftHeader(){
     return <div className='left-header'> 
-        <text>Let's Chat</text>
+        <p>Let's Chat</p>
     </div>
 }
 
