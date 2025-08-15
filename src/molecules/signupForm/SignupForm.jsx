@@ -49,7 +49,7 @@ function SignupForm(props) {
             <br />
             <InputBox id={"lastName"} type="text" value={userData.lastName} onChange={register} label={"Last name"} placeHolder="Doe"></InputBox>
             <br />
-            <InputBox id={"email"} type="text" value={userData.email} onChange={register} label={"email"} placeHolder={"johndoe@example.com"}></InputBox>
+            <InputBox id={"email"} type="text" value={userData.email} onChange={register} label={"Email"} placeHolder={"johndoe@example.com"}></InputBox>
             <br />
             <InputBox id={"password"} type="text" value={userData.password} onChange={register} label={"Password"} placeHolder={""}></InputBox>
             <br />
