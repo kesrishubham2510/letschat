@@ -3,7 +3,8 @@ import './signupForm.css';
 
 import InputBox from '../../atoms/inputBox/InputBox';
 import Button from '../../atoms/button/Button';
-function SignupForm() {
+
+function SignupForm(props) {
 
     /*
         prop to customize the basic Button.jsx component,
@@ -46,7 +47,8 @@ function SignupForm() {
             <InputBox id={"confirmPassword"} value={userData.confirmPassword} onChange={register} label={"Confirm password"} placeHolder={""}></InputBox>
         </form>
         <div className='button-section'>
-            <Button label={"Register"} style={buttonStyle} onClick={register}/>
+            <Button label={"Register"} style={buttonStyle} action={register}/>
+            <Button label={"Login"} style={buttonStyle} action={props.toggleForm}/>
         </div>
     </div>
 }
