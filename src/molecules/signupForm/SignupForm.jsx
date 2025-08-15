@@ -11,12 +11,21 @@ function SignupForm(props) {
         this is known as `Component Specialization`
     */
 
-    const buttonStyle = {
+    const registerButtonStyle = {
         background: "whitesmoke",
-        width: "70%",
+        width: "100%",
         borderRadius: "10px",
+        alignSelf: "center",
         marginTop: "5px",
-        height: "100%"
+        padding: "5px",
+        fontWeight: "bold"
+    }
+
+    const loginButtonStyle = {
+        background: "whitesmoke",
+        width: "44%",
+        borderRadius: "10px",
+        padding: "5px"
     }
 
     // I'm using controlled components
@@ -47,8 +56,11 @@ function SignupForm(props) {
             <InputBox id={"confirmPassword"} value={userData.confirmPassword} onChange={register} label={"Confirm password"} placeHolder={""}></InputBox>
         </form>
         <div className='button-section'>
-            <Button label={"Register"} style={buttonStyle} action={register}/>
-            <Button label={"Login"} style={buttonStyle} action={props.toggleForm}/>
+            <Button label={"Register"} style={registerButtonStyle} action={register} />
+            <div className='alternate-section'>
+                <text>Already have an account ?</text>
+                <Button label={"Login"} style={loginButtonStyle} action={props.toggleForm} />
+            </div>
         </div>
     </div>
 }
