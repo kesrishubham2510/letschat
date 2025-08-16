@@ -17,9 +17,9 @@ function RightHeader() {
         <p>About</p>
         <p>Features</p>
         <p>Contact</p>
-        <div className='button-section'>
-            <Button onClick={loginFunction} label="Login" />
-            <Button onClick={signupFunction} label="Signup" />
+        <div className='button-group'>
+            <Button action={loginFunction} label="Login" />
+            <Button action={signupFunction} label="Signup" />
         </div>
     </div>;
 }
