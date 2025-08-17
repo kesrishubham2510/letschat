@@ -1,7 +1,7 @@
 import './registration.css';
 
-import '../../molecules/signupForm/SignupForm';
 import SignupForm from '../../molecules/signupForm/SignupForm';
+import LoginForm from '../../molecules/loginForm/LoginForm';
 
 import { useState } from 'react';
 
@@ -19,7 +19,7 @@ function Registration(){
     }
 
     return <div className="registration">
-        {isRegistration ? <SignupForm toggleForm={toggleForm} /> : <h1>This is Login form</h1>}
+        {isRegistration ? <SignupForm toggleForm={toggleForm} /> : <LoginForm toggleForm={toggleForm}/>}
     </div>
 }
 

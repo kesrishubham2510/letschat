@@ -4,7 +4,7 @@ import './signupForm.css';
 
 import InputBox from '../../atoms/inputBox/InputBox';
 import Button from '../../atoms/button/Button';
-import DataHelper from './DataHelper';
+import DataHelper from '../../utilities/DataValidator';
 
 function SignupForm(props) {
 
@@ -46,7 +46,8 @@ function SignupForm(props) {
         'confirmPasswordErr': ''
     })
 
-    function register() {
+    function register(event) {
+        event.preventDefault();
         validateData();
     }
 
@@ -89,7 +90,7 @@ function SignupForm(props) {
     }
 
     return <div className="signupForm">
-        <h1 className='page-label'>Registration</h1>
+        <h2 className='page-label'>Registration</h2>
         <form onSubmit={register}>
             <InputBox id={"firstName"} name="firstName" type="p" value={userData.firstName} onChange={updateInput} label={"First name"} placeHolder="John" error={errors.firstNameErr} ></InputBox>
             <br />

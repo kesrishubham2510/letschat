@@ -27,7 +27,7 @@ function validatePassword(password, confirmPassword){
     if(password==='')
         return 'Can\'t be empty';
 
-    if(!(password === confirmPassword))
+    if(confirmPassword!==undefined && !(password === confirmPassword))
         return 'Passwords don\'t match';
 
     return null;
