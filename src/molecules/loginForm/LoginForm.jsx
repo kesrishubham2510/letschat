@@ -67,9 +67,9 @@ function LoginForm(props){
     return <div className="loginForm">
         <h2 className='page-label'>Login</h2>
         <form onSubmit={login}>
-            <InputBox id={"email"} name="email" type="p" value={userCredentials.email} onChange={updateInput} label={"Email"} placeHolder={"johndoe@example.com"} error={errors.emailErr} ></InputBox>
+            <InputBox id={"email"} name="email" type="text" value={userCredentials.email} onChange={updateInput} label={"Email"} placeHolder={"johndoe@example.com"} error={errors.emailErr} ></InputBox>
             <br />
-            <InputBox id={"password"} name="password" type="p" value={userCredentials.password} onChange={updateInput} label={"Password"} placeHolder={""} error={errors.passwordErr}></InputBox>
+            <InputBox id={"password"} name="password" type="password" value={userCredentials.password} onChange={updateInput} label={"Password"} placeHolder={"********"} error={errors.passwordErr}></InputBox>
         </form>
         <div className='button-section'>
             <Button label={"Login"} style={loginButtonStyle} action={login} />
