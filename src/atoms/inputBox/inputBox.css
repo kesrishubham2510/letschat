@@ -1,11 +1,11 @@
 input {
     margin: 10px;
-    height: 35px;
+    height: 20px;
     padding: 5px;
     width: 90%;
+    border-radius: 5px;
     border: 1px solid gainsboro;
     background-color: azure;
-    border-radius: 30px;
 }
 
 label{
@@ -14,4 +14,17 @@ label{
 
 input:focus {
     outline: none;
+}
+
+.input-label{
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.error-span{
+    text-align: left;
+    color: red;
+    margin-left: 5px;
+    font-weight: 600;
+    font-size: 12px;
 }
