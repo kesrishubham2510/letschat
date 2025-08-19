@@ -1,12 +1,19 @@
 import "./App.css";
-import Landing from "./pages/landing/Landing";
+import Footer from "./molecules/footer/Footer";
 import Header from "./molecules/header/Header";
+import HomeFeed from "./pages/homeFeed/HomeFeed";
+import Landing from "./pages/landing/Landing";
+import Registration from "./pages/registration/Registration";
 
 function App() {
   return (
-    <>
-      <Landing />
-    </>
+    <div className="main-scaffold">
+      <Header />
+      {/* <Landing/>
+      <Registration /> */}
+      <HomeFeed/>
+      <Footer />
+    </div>
   );
 }
 

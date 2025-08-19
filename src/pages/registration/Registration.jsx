@@ -19,7 +19,6 @@ function Registration(){
     }
 
     return <div className="registration">
-
         {isRegistration ? <SignupForm toggleForm={toggleForm} /> : <LoginForm toggleForm={toggleForm}/>}
     </div>
 }

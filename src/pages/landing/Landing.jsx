@@ -5,9 +5,7 @@ import Footer from '../../molecules/footer/Footer';
 function Landing(){
 
     return <div className='landing-page'>
-        <Header/>
         <Body/>
-        <Footer/>
     </div>
 }
 
