@@ -1,0 +1,29 @@
+.tile-section {
+    width: 90%;
+    border: 1px solid lightgray;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    align-self: center;
+    flex-direction: row;
+    margin: 4px 4px;
+    align-items: center;
+    padding: 0 10px;
+
+}
+
+.tile-img {
+    width: 1%0%;
+    border: 2px solid orange;
+    display: flex;
+    flex-direction: row;
+    margin: 0 2px;
+}
+
+.tile-text {
+    width: 80%;
+    border: 2px solid purple;
+    display: flex;
+    margin: 0 2px;
+    font-weight: 800;
+}

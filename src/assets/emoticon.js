@@ -1,0 +1,13 @@
+const PROFILE_EMOJI = '1F600';
+const GROUPS_EMOJI = '1F47C';
+const CHATS_EMOJI = '2709';
+const INFO_EMOJI = '2139';
+const LOGOUT_EMOJI = '1F510';
+
+export {
+    PROFILE_EMOJI,
+    GROUPS_EMOJI,
+    CHATS_EMOJI,
+    INFO_EMOJI,
+    LOGOUT_EMOJI
+}
