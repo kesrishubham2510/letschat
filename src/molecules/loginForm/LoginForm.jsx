@@ -67,7 +67,7 @@ function LoginForm(props){
     return <div className="loginForm">
         <h2 className='page-label'>Login</h2>
         <form onSubmit={login}>
-            <InputBox id={"email"} name="email" type="text" value={userCredentials.email} onChange={updateInput} label={"Email"} placeHolder={"johndoe@example.com"} error={errors.emailErr} ></InputBox>
+            <InputBox id={"email"} name="email" type="text" value={userCredentials.email} onChange={updateInput} label={"Identity"} placeHolder={"email or username"} error={errors.emailErr} ></InputBox>
             <br />
             <InputBox id={"password"} name="password" type="password" value={userCredentials.password} onChange={updateInput} label={"Password"} placeHolder={"********"} error={errors.passwordErr}></InputBox>
         </form>

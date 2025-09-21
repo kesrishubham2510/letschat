@@ -33,6 +33,7 @@ function SignupForm(props) {
     const [userData, setUserData] = useState({
         'firstName': '',
         'lastName': '',
+        'username': '',
         'email': '',
         'password': '',
         'confirmPassword': ''
@@ -41,6 +42,7 @@ function SignupForm(props) {
     const [errors, setErrors] = useState({
         'firstNameErr': '',
         'lastNameErr': '',
+        'usernameErr': '',
         'emailErr': '',
         'passwordErr': '',
         'confirmPasswordErr': ''
@@ -61,6 +63,7 @@ function SignupForm(props) {
         const firstNameError = DataHelper.validateFirstName(userData.firstName);
         const lastNameError = DataHelper.validateLastName(userData.lastName);
         const emailError = DataHelper.validateEmail(userData.email);
+        const usernameError = DataHelper.validateUsername(userData.username);
         const passwordError = DataHelper.validatePassword(userData.password, userData.confirmPassword);
 
         setErrors((prevErrors) => {
@@ -69,7 +72,8 @@ function SignupForm(props) {
                 'firstNameErr': firstNameError,
                 'lastNameErr': lastNameError,
                 'emailErr': emailError,
-                'passwordErr': passwordError
+                'passwordErr': passwordError,
+                'usernameErr': usernameError
             }
         })
 
@@ -96,6 +100,8 @@ function SignupForm(props) {
             <br />
             <InputBox id={"lastName"} name="lastName" type="text" value={userData.lastName} onChange={updateInput} label={"Last name"} placeHolder="Doe" error={errors.lastNameErr} ></InputBox>
             <br />
+            <InputBox id={"userName"} name="userName" type="text" value={userData.username} onChange={updateInput} label={"Username"} placeHolder="johnDoe#133" error={errors.usernameErr} ></InputBox>
+            <br/>
             <InputBox id={"email"} name="email" type="text" value={userData.email} onChange={updateInput} label={"Email"} placeHolder={"johndoe@example.com"} error={errors.emailErr} ></InputBox>
             <br />
             <InputBox id={"password"} name="password" type="password" value={userData.password} onChange={updateInput} label={"Password"} placeHolder={"********"} error={errors.passwordErr}></InputBox>

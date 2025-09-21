@@ -33,9 +33,17 @@ function validatePassword(password, confirmPassword){
     return null;
 }
 
+function validateUsername(username){
+    if(username==='')
+        return 'Can\'t be empty';
+
+    return null;
+}
+
 export default {
     validateFirstName,
     validateLastName,
     validateEmail,
-    validatePassword
+    validatePassword,
+    validateUsername
 }

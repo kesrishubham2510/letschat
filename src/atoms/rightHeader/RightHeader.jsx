@@ -1,25 +1,26 @@
 import './rightHeader.css';
 
 import Button from '../button/Button';
+import { Link, useNavigate } from 'react-router-dom';
 
 function RightHeader() {
 
-    const loginFunction = (event) => {
-        console.log("Login button clicked");
-    }
+    const navigate = useNavigate();
 
-    const signupFunction = (event) => {
-        console.log("Signup button clicked");
+    const styleForLink = {
+        fontWeight: '600',
+        textDecoration: 'none'
     }
 
     return <div className='right-header'>
-        <p>Home</p>
-        <p>About</p>
-        <p>Features</p>
-        <p>Contact</p>
+        <div className='nav-group'>
+            <Link style={styleForLink} to='/'>Home</Link>
+            <Link style={styleForLink} to='/'>About</Link>
+            <Link style={styleForLink} to='/'>Features</Link>
+            <Link style={styleForLink} to='/'>Contact</Link>
+        </div>
         <div className='button-group'>
-            <Button action={loginFunction} label="Login" />
-            <Button action={signupFunction} label="Signup" />
+            <Button action={() => navigate('/register')} label="Signup" />
         </div>
     </div>;
 }

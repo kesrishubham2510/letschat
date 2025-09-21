@@ -5,9 +5,9 @@ import LoginForm from '../../molecules/loginForm/LoginForm';
 
 import { useState } from 'react';
 
-function Registration(){
+function Registration(props){
 
-    const [isRegistration, setIsRegistration] = useState(true);
+    const [isRegistration, setIsRegistration] = useState(props.isRegistration);
 
     /* this class will perform the registration with the data received
        from child component

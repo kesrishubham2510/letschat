@@ -1,8 +1,8 @@
 .button-group {
-    display: flex;
-    margin: 2px 0 2px 0;
-    width: 15%;
-    justify-content: end;
+  display: flex;
+  margin: 2px 0 2px 0;
+  width: 8%;
+  justify-content: center;
 }
 
 .button-light {
