@@ -19,7 +19,7 @@ function App() {
   return (
     <Router>
       <div className="main-scaffold">
-        <Header />
+        {/* <Header /> */}
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route
@@ -31,7 +31,7 @@ function App() {
             element={<Registration isRegistration={true} />}
           />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </Router>
   );
