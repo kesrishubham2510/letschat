@@ -27,7 +27,7 @@ function validatePassword(password, confirmPassword){
     if(password==='')
         return 'Can\'t be empty';
 
-    if(confirmPassword!==undefined && !(password === confirmPassword))
+    if(!isEmptyOrNull(confirmPassword) && confirmPassword!==undefined && password !== confirmPassword)
         return 'Passwords don\'t match';
 
     return null;
@@ -40,10 +40,15 @@ function validateUsername(username){
     return null;
 }
 
+function isEmptyOrNull(value){
+    return (value==='' || value===null)
+}
+
 export default {
     validateFirstName,
     validateLastName,
     validateEmail,
     validatePassword,
-    validateUsername
+    validateUsername,
+    isEmptyOrNull
 }
