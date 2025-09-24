@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import './signupForm.css';
+
+import { UserContext } from '../../config/GlobalState';
 
 import InputBox from '../../atoms/inputBox/InputBox';
 import Button from '../../atoms/button/Button';
@@ -49,9 +51,20 @@ function SignupForm(props) {
 
     // I'm using controlled components
 
+
     const [userData, setUserData] = useState(initialUserData);
 
     const [errors, setErrors] = useState(initialError);
+
+    const { userState, setUserState } = useContext(UserContext);
+
+    useEffect(() => {
+        console.log('Userstate:- ',userState);
+        
+        if (userState.isRegistered) {
+            console.log("The user account has been created successfully, navigating to the login page");
+        }
+    }, [userState]);
 
     function handleException(exceptionMessageBody) {
         const errorKey = exceptionMessageBody.key;
@@ -113,14 +126,28 @@ function SignupForm(props) {
         ).then(response => {
 
             if (response.ok) {
-                response.json().then(errResponse => {
-                    console.log("Status is :- ", response.status, " response:- ", errResponse);
-                    // clear the previously entered userData
-                    // setUserData(() => {
-                    //     return initialUserData
-                    // })
+                response.json().then(responseBody => {
 
-                    // navigate to user-profile page
+                    // clear the previously entered userData
+                    setUserData(() => {
+                        return initialUserData
+                    })
+
+                    setUserState(() => {
+                        return {
+                            'userId': responseBody.userId,
+                            'firstName': responseBody.firstName,
+                            'lastName': responseBody.lastName,
+                            'email': responseBody.email,
+                            'username': responseBody.username,
+                            'role': responseBody.role,
+                            'joined': responseBody.joined,
+                            'token': '',
+                            'emailVerified': responseBody.emailVerified,
+                            'isLoggedIn': false,
+                            'isRegistered': true
+                        }
+                    })
                 })
             } else if (response.status === 400) {
                 response.json().then(errResponse => {
@@ -184,7 +211,7 @@ function SignupForm(props) {
             'passwordErr': passwordValidationResult,
             'confirmPasswordErr': ''
         }
-        
+
         setErrors(errorObject);
 
         return Object.values(errorObject).every(err => !err);;
