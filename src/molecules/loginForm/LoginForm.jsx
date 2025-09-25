@@ -27,21 +27,29 @@ function LoginForm(props) {
 
     const { userState, setUserState } = useContext(UserContext);
 
-
     useEffect(() => {
 
         // if email is present in the global context, populate the identity field
-
-        if (userState.email !== '' && DataHelper.validateEmail(userState.email) === null) {
-            setUserCredentials((prevCredentials) => {
-                return {
-                    ...prevCredentials,
-                    'email': userState.email
-                }
-            })
+        if (userState.token !== '' && userState.token !== undefined && userState.token !== 'no-token-received') {
+            navigate('/');
         }
 
-    }, [])
+        if (userState.email !== '' && userState.email !== undefined && userState.email !== null) {
+            setUserCredentials((prevState) => {
+                return {
+                    ...prevState,
+                    'email': userState.email
+                }
+            });
+        } else if (userState.username !== '' && userState.username !== undefined && userState.username !== null) {
+            setUserCredentials((prevState) => {
+                return {
+                    ...prevState,
+                    'email': userState.username
+                }
+            });
+        }
+    }, [userState])
 
     const navigate = useNavigate();
     const [userCredentials, setUserCredentials] = useState(initialUserCredentials);
@@ -100,10 +108,18 @@ function LoginForm(props) {
         fetch(endpoints.login_endpoint, {
             method: 'POST',
             headers: {
-                'Content-type': 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
         }).then((receivedRresponse) => {
+
+            receivedRresponse.headers.forEach((value, key) => {
+                console.log('Key:- ', key + ', value:-  ', value, '\n');
+            })
+
+            const jwtToken = receivedRresponse.headers.has('authorization') ? receivedRresponse.headers.get('authorization') : 'no-token-received';
+            console.log(jwtToken);
+
             if (receivedRresponse.ok) {
                 console.log('Response status:- ', receivedRresponse.status);
                 // reset any error, 
@@ -114,7 +130,28 @@ function LoginForm(props) {
                 setUserCredentials(() => {
                     return initialUserCredentials;
                 })
-                // navigate to user account
+
+                // handle response
+                receivedRresponse.json().then((parsedResponse) => {
+                    setUserState(() => {
+                        return {
+                            'userId': parsedResponse.userId,
+                            'firstName': parsedResponse.firstName,
+                            'lastName': parsedResponse.lastName,
+                            'email': parsedResponse.email,
+                            'username': parsedResponse.username,
+                            'role': parsedResponse.role,
+                            'joined': parsedResponse.joined,
+                            'token': jwtToken,
+                            'emailVerified': parsedResponse.emailVerified,
+                            'isLoggedIn': jwtToken !== 'no-token-received' ? true : false,
+                            'isRegistered': true
+                        }
+                    })
+                })
+
+                // set the user data & navigate to user account
+
             } else if (receivedRresponse.status === 400 || receivedRresponse.status === 401) {
                 console.log('Response status:- ', receivedRresponse.status);
                 // show the field error
