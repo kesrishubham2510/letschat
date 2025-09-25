@@ -16,25 +16,27 @@ import Header from "./molecules/header/Header";
 import HomeFeed from "./pages/homeFeed/HomeFeed";
 import Landing from "./pages/landing/Landing";
 import Registration from "./pages/registration/Registration";
+import LoginForm from "./molecules/loginForm/LoginForm";
+import SignupForm from "./molecules/signupForm/SignupForm";
 
 function App() {
   return (
     <GlobalStateProvider>
       <Router>
         <div className="main-scaffold">
-          {/* <Header /> */}
+          <Header />
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route
               path="/login"
-              element={<Registration isRegistration={false} />}
+              element={<LoginForm/>} 
             />
             <Route
               path="/register"
-              element={<Registration isRegistration={true} />}
+              element={<SignupForm/>} 
             />
           </Routes>
-          {/* <Footer /> */}
+          <Footer />
         </div>
       </Router>
     </GlobalStateProvider>

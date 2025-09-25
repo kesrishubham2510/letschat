@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+
+import { UserContext } from "../../config/GlobalState";
 
 import './loginForm.css';
 
@@ -8,6 +10,7 @@ import DataHelper from "../../utilities/DataValidator";
 
 import InputBox from "../../atoms/inputBox/InputBox";
 import Button from "../../atoms/button/Button";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 function LoginForm(props) {
@@ -22,6 +25,25 @@ function LoginForm(props) {
         'passwordErr': ''
     }
 
+    const { userState, setUserState } = useContext(UserContext);
+
+
+    useEffect(() => {
+
+        // if email is present in the global context, populate the identity field
+
+        if (userState.email !== '' && DataHelper.validateEmail(userState.email) === null) {
+            setUserCredentials((prevCredentials) => {
+                return {
+                    ...prevCredentials,
+                    'email': userState.email
+                }
+            })
+        }
+
+    }, [])
+
+    const navigate = useNavigate();
     const [userCredentials, setUserCredentials] = useState(initialUserCredentials);
 
     const [errors, setErrors] = useState(inititalErrors)
@@ -160,18 +182,20 @@ function LoginForm(props) {
 
     }
 
-    return <div className="loginForm">
-        <h2 className='page-label'>Login</h2>
-        <form>
-            <InputBox id={"email"} name="email" type="text" value={userCredentials.email} onChange={updateInput} label={"Identity"} placeHolder={"email or username"} error={errors.emailErr} ></InputBox>
-            <br />
-            <InputBox id={"password"} name="password" type="password" value={userCredentials.password} onChange={updateInput} label={"Password"} placeHolder={"********"} error={errors.passwordErr}></InputBox>
-        </form>
-        <div className='button-section'>
-            <Button label={"Login"} style={loginButtonStyle} action={login} />
-            <div className='alternate-section'>
-                <p>Not having an account ?</p>
-                <Button label={"Register"} style={registerButtonStyle} action={props.toggleForm} />
+    return <div className='loginFormWrapper'>
+        <div className="loginForm">
+            <h2 className='page-label'>Login</h2>
+            <form>
+                <InputBox id={"email"} name="email" type="text" value={userCredentials.email} onChange={updateInput} label={"Identity"} placeHolder={"email or username"} error={errors.emailErr} ></InputBox>
+                <br />
+                <InputBox id={"password"} name="password" type="password" value={userCredentials.password} onChange={updateInput} label={"Password"} placeHolder={"********"} error={errors.passwordErr}></InputBox>
+            </form>
+            <div className='button-section'>
+                <Button label={"Login"} style={loginButtonStyle} action={login} />
+                <div className='alternate-section'>
+                    <p>Not having an account ?</p>
+                    <Button label={"Register"} style={registerButtonStyle} action={() => navigate('/register')} />
+                </div>
             </div>
         </div>
     </div>

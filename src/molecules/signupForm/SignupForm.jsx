@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import './signupForm.css';
 
@@ -51,6 +52,7 @@ function SignupForm(props) {
 
     // I'm using controlled components
 
+    const navigate = useNavigate();
 
     const [userData, setUserData] = useState(initialUserData);
 
@@ -59,10 +61,11 @@ function SignupForm(props) {
     const { userState, setUserState } = useContext(UserContext);
 
     useEffect(() => {
-        console.log('Userstate:- ',userState);
-        
+        console.log('Userstate:- ', userState);
+
         if (userState.isRegistered) {
             console.log("The user account has been created successfully, navigating to the login page");
+            navigate('/login')
         }
     }, [userState]);
 
@@ -217,26 +220,28 @@ function SignupForm(props) {
         return Object.values(errorObject).every(err => !err);;
     }
 
-    return <div className="signupForm">
-        <h2 className='page-label'>Registration</h2>
-        <form>
-            <InputBox id={"firstName"} name="firstName" type="text" value={userData.firstName} onChange={updateInput} label={"First name"} placeHolder="John" error={errors.firstNameErr} ></InputBox>
-            <br />
-            <InputBox id={"lastName"} name="lastName" type="text" value={userData.lastName} onChange={updateInput} label={"Last name"} placeHolder="Doe" error={errors.lastNameErr} ></InputBox>
-            <br />
-            <InputBox id={"userName"} name="username" type="text" value={userData.username} onChange={updateInput} label={"Username"} placeHolder="johnDoe#133" error={errors.usernameErr} ></InputBox>
-            <br />
-            <InputBox id={"email"} name="email" type="text" value={userData.email} onChange={updateInput} label={"Email"} placeHolder={"johndoe@example.com"} error={errors.emailErr} ></InputBox>
-            <br />
-            <InputBox id={"password"} name="password" type="password" value={userData.password} onChange={updateInput} label={"Password"} placeHolder={"********"} error={errors.passwordErr}></InputBox>
-            <br />
-            <InputBox id={"confirmPassword"} name="confirmPassword" type='text' value={userData.confirmPassword} onChange={updateInput} label={"Confirm password"} placeHolder={"********"}></InputBox>
-        </form>
-        <div className='button-section'>
-            <Button label={"Register"} style={registerButtonStyle} action={register} />
-            <div className='alternate-section'>
-                <p>Already have an account ?</p>
-                <Button label={"Login"} style={loginButtonStyle} action={props.toggleForm} />
+    return <div className='signupFormWrapper'>
+        <div className="signupForm">
+            <h2 className='page-label'>Registration</h2>
+            <form>
+                <InputBox id={"firstName"} name="firstName" type="text" value={userData.firstName} onChange={updateInput} label={"First name"} placeHolder="John" error={errors.firstNameErr} ></InputBox>
+                <br />
+                <InputBox id={"lastName"} name="lastName" type="text" value={userData.lastName} onChange={updateInput} label={"Last name"} placeHolder="Doe" error={errors.lastNameErr} ></InputBox>
+                <br />
+                <InputBox id={"userName"} name="username" type="text" value={userData.username} onChange={updateInput} label={"Username"} placeHolder="johnDoe#133" error={errors.usernameErr} ></InputBox>
+                <br />
+                <InputBox id={"email"} name="email" type="text" value={userData.email} onChange={updateInput} label={"Email"} placeHolder={"johndoe@example.com"} error={errors.emailErr} ></InputBox>
+                <br />
+                <InputBox id={"password"} name="password" type="password" value={userData.password} onChange={updateInput} label={"Password"} placeHolder={"********"} error={errors.passwordErr}></InputBox>
+                <br />
+                <InputBox id={"confirmPassword"} name="confirmPassword" type='text' value={userData.confirmPassword} onChange={updateInput} label={"Confirm password"} placeHolder={"********"}></InputBox>
+            </form>
+            <div className='button-section'>
+                <Button label={"Register"} style={registerButtonStyle} action={register} />
+                <div className='alternate-section'>
+                    <p>Already have an account ?</p>
+                    <Button label={"Login"} style={loginButtonStyle} action={() => { navigate('/login') }} />
+                </div>
             </div>
         </div>
     </div>
