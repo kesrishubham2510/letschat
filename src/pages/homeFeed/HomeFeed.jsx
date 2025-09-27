@@ -2,6 +2,7 @@ import './homeFeed.css';
 
 import {PROFILE_EMOJI, GROUPS_EMOJI, CHATS_EMOJI, INFO_EMOJI, LOGOUT_EMOJI} from '../../assets/emoticon';
 import Tile from '../../atoms/tile/Tile';
+import Post from '../../molecules/Post/Post';
 
 function HomeFeed(props){
 
@@ -18,10 +19,9 @@ function HomeFeed(props){
             <Tile imgSrc={CHATS_EMOJI} text={"Chats"} action={somethingClicked}/>
             <Tile imgSrc={INFO_EMOJI} text={"Info"} action={somethingClicked}/>
             <Tile imgSrc={LOGOUT_EMOJI} text={"Logout"} action={somethingClicked}/>
-
         </div>
         <div className='homefeed-div-center'>
-
+            <Post/>
         </div>
         <div className='homefeed-div-right'>
 

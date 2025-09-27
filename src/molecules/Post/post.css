@@ -1,0 +1,48 @@
+.post{
+    display: block;
+    justify-self:center;
+    width: 90%;
+    margin-top: 15px;
+    border: 1px solid goldenrod;
+    border-radius: 20px;
+    padding-top: 10px;
+    background-color: white;
+}
+
+.post-header{
+    display: flex;
+    justify-self:center;
+    /* border: 2px solid black; */
+    width: 80%;
+}
+
+.post-content{
+    width: 80%;
+    height: max-content;
+    /* border: 2px solid orange; */
+    justify-self: center;
+    margin-top: 5px;
+    padding: 5px;
+}
+
+.interaction-div{
+    width: 80%;
+    display: flex;
+    justify-self: center;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.interaction-div > p{
+    width: 40%;
+    /* border: 2px solid orange; */
+    justify-self: flex-start;
+    margin-top: 5px;
+    padding: 5px;
+    height: 20px;
+}
+
+.post-add-comment{
+    width: 85%;
+    justify-self: center;
+}

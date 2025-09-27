@@ -12,7 +12,7 @@ let initialUserState = {
     'joined' : '',
     'token' : '',
     'emailVerified' : '',
-    'isLoggedIn': false,
+    'isLoggedIn': true,
     'isRegistered': false
 }
 

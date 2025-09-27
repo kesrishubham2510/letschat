@@ -35,6 +35,10 @@ function App() {
               path="/register"
               element={<SignupForm/>} 
             />
+            <Route
+              path = "/home"
+              element = {<HomeFeed/>}
+            />
           </Routes>
           <Footer />
         </div>

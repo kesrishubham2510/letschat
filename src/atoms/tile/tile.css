@@ -1,6 +1,6 @@
 .tile-section {
     width: 90%;
-    border: 1px solid lightgray;
+    /* border: 1px solid lightgray; */
     height: 40px;
     border-radius: 5px;
     display: flex;
@@ -14,7 +14,7 @@
 
 .tile-img {
     width: 1%0%;
-    border: 2px solid orange;
+    /* border: 2px solid orange; */
     display: flex;
     flex-direction: row;
     margin: 0 2px;
@@ -22,7 +22,7 @@
 
 .tile-text {
     width: 80%;
-    border: 2px solid purple;
+    /* border: 2px solid purple; */
     display: flex;
     margin: 0 2px;
     font-weight: 800;

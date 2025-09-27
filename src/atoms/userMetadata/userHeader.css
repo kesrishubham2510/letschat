@@ -1,0 +1,16 @@
+.meta-data{
+   display: block;
+   /* border: 2px solid purple; */
+   padding-left: 4px;
+   padding-right: 4px;
+}
+
+.user-activity > strong{
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.user-identity > strong{
+    font-size: 15px;
+    font-weight: bold;
+}

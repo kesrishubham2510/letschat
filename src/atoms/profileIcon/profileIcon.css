@@ -1,0 +1,18 @@
+.pic-icon {
+    width: 40px;
+    border-radius: 50px;
+    border: 4px solid green;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-left: 4px;
+    height: 45px;
+    margin-right: 4px;
+    overflow: hidden;
+}
+
+.pic-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* keeps aspect ratio but fills the box */
+    border-radius: 50%; /* makes the image itself round */
+}

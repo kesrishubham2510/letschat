@@ -1,0 +1,14 @@
+.engagement-div {
+    display: flex;
+    height: 40px;
+    margin-top: 5px;
+    /* border: 2px solid orangered; */
+    margin-right: 5px;
+}
+
+.engagement-div > p{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    height: 20px;
+}
