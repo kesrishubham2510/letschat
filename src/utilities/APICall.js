@@ -1,19 +1,19 @@
 import DataValidator from "./DataValidator";
-import endpoints from '../config/API';
+import endpoints from "../config/API";
 
-function loginUser(requestPayload, callback){
- 
-    fetch(endpoints.login_endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestPayload),
-            credentials: 'include'
-        }).then(callback)
-          .catch(err=>{
-            console.log(err);
-          })
+function loginUser(requestPayload, callback) {
+  fetch(endpoints.login_endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestPayload),
+    credentials: "include",
+  })
+    .then(callback)
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function retrieveMyDetails(callback) {
@@ -42,14 +42,32 @@ function refreshMyJwtToken(callback) {
   })
     .then(callback)
     .catch((err) => {
-      console.log("This is the error from refresh-token call:- ",err);
+      console.log("This is the error from refresh-token call:- ", err);
+    });
+}
+
+function registerUser(callback, payload) {
+  fetch(endpoints.registration_endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(callback)
+    .catch((err) => {
+      console.log(
+        "This is the error occured while registering the user:- ",
+        err
+      );
     });
 }
 
 const APICalls = {
-  loginUser,  
+  loginUser,
   retrieveMyDetails,
-  refreshMyJwtToken
+  refreshMyJwtToken,
+  registerUser,
 };
 
 export default APICalls;

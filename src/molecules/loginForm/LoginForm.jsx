@@ -28,6 +28,17 @@ function LoginForm(props) {
 
     useEffect(() => {
 
+        if(!DataHelper.isEmptyOrNull(userState.email)){
+            setUserCredentials((prevState)=>{
+                return {
+                    ...prevState,
+                    'email': userState.email
+                }
+            })
+
+            return;
+        }
+
         if (!DataHelper.isEmptyOrNull(userState.token)) {
             // Navigate to homeFeed
             console.log("Going to homeFeed, as there is a valid auth token");

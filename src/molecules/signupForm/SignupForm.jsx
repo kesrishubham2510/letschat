@@ -9,6 +9,7 @@ import InputBox from '../../atoms/inputBox/InputBox';
 import Button from '../../atoms/button/Button';
 import DataHelper from '../../utilities/DataValidator';
 import endpointMap from '../../config/API';
+import APICalls from '../../utilities/APICall';
 
 function SignupForm(props) {
 
@@ -68,6 +69,7 @@ function SignupForm(props) {
             navigate('/login')
         }
     }, [userState]);
+    
 
     function handleException(exceptionMessageBody) {
         const errorKey = exceptionMessageBody.key;
@@ -117,138 +119,128 @@ function SignupForm(props) {
             "email": userData.email,
             "password": userData.password
         }
-        const registrationData = fetch(
-            endpointMap.registration_endpoint,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            }
-        ).then(response => {
-
-            if (response.ok) {
-                response.json().then(responseBody => {
-
-                    // clear the previously entered userData
-                    setUserData(() => {
-                        return initialUserData
-                    })
-
-                    // also store the token in localStorage, to avoid token loss during browser refresh
-                    // to handle availablity of auth token using useEffect 
-                    // To add service workers to show offline experience
-
-                    setUserState(() => {
-                        return {
-                            'userId': responseBody.userId,
-                            'firstName': responseBody.firstName,
-                            'lastName': responseBody.lastName,
-                            'email': responseBody.email,
-                            'username': responseBody.username,
-                            'role': responseBody.role,
-                            'joined': responseBody.joined,
-                            'token': '',
-                            'emailVerified': responseBody.emailVerified,
-                            'isLoggedIn': false,
-                            'isRegistered': true
-                        }
-                    })
-                })
-            } else if (response.status === 400) {
-                response.json().then(errResponse => {
-                    console.log("Status is :- ", response.status, " response:- ", errResponse);
-                    handleException(errResponse);
-                })
-            } else {
-                response.json().then(errResponse => {
-                    console.log("Status is :- ", response.status, " response:- ", errResponse);
-                    // Display a Modal to mention 'Something went wrong'
-                })
-            }
-        }).catch(err => {
-            console.log("This is the err:- " + err);
-        })
-
+        
+        APICalls.registerUser(handleUserRegistrationResponse, payload);
 
     }
 
+    function handleUserRegistrationResponse(receivedResponse) {
 
+        if (receivedResponse.ok) {
+            receivedResponse.json().then(responseBody => {
 
-    function removeInputError(name) {
-        setErrors((prevErrors) => {
-            return {
-                ...prevErrors,
-                // to nullifythe error after input update
-                [name]: ''
-            }
-        })
-    }
+                // clear the previously entered userData
+                setUserData(() => {
+                    return initialUserData
+                })
 
-    function updateInput(event) {
-        const { name, value } = event.target;
-        const errorKey = name + 'Err';
+                // also store the token in localStorage, to avoid token loss during browser refresh
+                // to handle availablity of auth token using useEffect 
+                // To add service workers to show offline experience
 
-        setUserData((prevState) => {
-            var updatedState = {
-                ...prevState,
-                // to avoid multiple words in first name
-                [name]: value.trim()
-            }
-            return updatedState;
-        });
-
-        removeInputError(errorKey);
-    }
-
-    function isInformationValid() {
-
-        const firstNameValidationResult = DataHelper.validateFirstName(userData.firstName);
-        const lastNameValidationResult = DataHelper.validateLastName(userData.lastName);
-        const emailValidationResult = DataHelper.validateEmail(userData.email);
-        const usernameValidationResult = DataHelper.validateUsername(userData.username);
-        const passwordValidationResult = DataHelper.validatePassword(userData.password, userData.confirmPassword);
-
-        const errorObject = {
-            'firstNameErr': firstNameValidationResult,
-            'lastNameErr': lastNameValidationResult,
-            'usernameErr': usernameValidationResult,
-            'emailErr': emailValidationResult,
-            'passwordErr': passwordValidationResult,
-            'confirmPasswordErr': ''
+                setUserState(() => {
+                    return {
+                        'userId': responseBody.userId,
+                        'firstName': responseBody.firstName,
+                        'lastName': responseBody.lastName,
+                        'email': responseBody.email,
+                        'username': responseBody.username,
+                        'role': responseBody.role,
+                        'joined': responseBody.joined,
+                        'token': '',
+                        'emailVerified': responseBody.emailVerified,
+                        'isLoggedIn': false,
+                        'isRegistered': true
+                    }
+                })
+            })
+        } else if (receivedResponse.status === 400) {
+            receivedResponse.json().then(errResponse => {
+                console.log("Status is :- ", receivedResponse.status, " response:- ", errResponse);
+                handleException(errResponse);
+            })
+        } else {
+            receivedResponse.json().then(errResponse => {
+                console.log("Status is :- ", receivedResponse.status, " response:- ", errResponse);
+                // Display a Modal to mention 'Something went wrong'
+            })
         }
+    
+}
 
-        setErrors(errorObject);
+function removeInputError(name) {
+    setErrors((prevErrors) => {
+        return {
+            ...prevErrors,
+            // to nullifythe error after input update
+            [name]: ''
+        }
+    })
+}
 
-        return Object.values(errorObject).every(err => !err);;
+function updateInput(event) {
+    const { name, value } = event.target;
+    const errorKey = name + 'Err';
+
+    setUserData((prevState) => {
+        var updatedState = {
+            ...prevState,
+            // to avoid multiple words in first name
+            [name]: value.trim()
+        }
+        return updatedState;
+    });
+
+    removeInputError(errorKey);
+}
+
+function isInformationValid() {
+
+    const firstNameValidationResult = DataHelper.validateFirstName(userData.firstName);
+    const lastNameValidationResult = DataHelper.validateLastName(userData.lastName);
+    const emailValidationResult = DataHelper.validateEmail(userData.email);
+    const usernameValidationResult = DataHelper.validateUsername(userData.username);
+    const passwordValidationResult = DataHelper.validatePassword(userData.password, userData.confirmPassword);
+
+    const errorObject = {
+        'firstNameErr': firstNameValidationResult,
+        'lastNameErr': lastNameValidationResult,
+        'usernameErr': usernameValidationResult,
+        'emailErr': emailValidationResult,
+        'passwordErr': passwordValidationResult,
+        'confirmPasswordErr': ''
     }
 
-    return <div className='signupFormWrapper'>
-        <div className="signupForm">
-            <h2 className='page-label'>Registration</h2>
-            <form>
-                <InputBox id={"firstName"} name="firstName" type="text" value={userData.firstName} onChange={updateInput} label={"First name"} placeHolder="John" error={errors.firstNameErr} ></InputBox>
-                <br />
-                <InputBox id={"lastName"} name="lastName" type="text" value={userData.lastName} onChange={updateInput} label={"Last name"} placeHolder="Doe" error={errors.lastNameErr} ></InputBox>
-                <br />
-                <InputBox id={"userName"} name="username" type="text" value={userData.username} onChange={updateInput} label={"Username"} placeHolder="johnDoe#133" error={errors.usernameErr} ></InputBox>
-                <br />
-                <InputBox id={"email"} name="email" type="text" value={userData.email} onChange={updateInput} label={"Email"} placeHolder={"johndoe@example.com"} error={errors.emailErr} ></InputBox>
-                <br />
-                <InputBox id={"password"} name="password" type="password" value={userData.password} onChange={updateInput} label={"Password"} placeHolder={"********"} error={errors.passwordErr}></InputBox>
-                <br />
-                <InputBox id={"confirmPassword"} name="confirmPassword" type='text' value={userData.confirmPassword} onChange={updateInput} label={"Confirm password"} placeHolder={"********"}></InputBox>
-            </form>
-            <div className='button-section'>
-                <Button label={"Register"} style={registerButtonStyle} action={register} />
-                <div className='alternate-section'>
-                    <p>Already have an account ?</p>
-                    <Button label={"Login"} style={loginButtonStyle} action={() => { navigate('/login') }} />
-                </div>
+    setErrors(errorObject);
+
+    return Object.values(errorObject).every(err => !err);;
+}
+
+return <div className='signupFormWrapper'>
+    <div className="signupForm">
+        <h2 className='page-label'>Registration</h2>
+        <form>
+            <InputBox id={"firstName"} name="firstName" type="text" value={userData.firstName} onChange={updateInput} label={"First name"} placeHolder="John" error={errors.firstNameErr} ></InputBox>
+            <br />
+            <InputBox id={"lastName"} name="lastName" type="text" value={userData.lastName} onChange={updateInput} label={"Last name"} placeHolder="Doe" error={errors.lastNameErr} ></InputBox>
+            <br />
+            <InputBox id={"userName"} name="username" type="text" value={userData.username} onChange={updateInput} label={"Username"} placeHolder="johnDoe#133" error={errors.usernameErr} ></InputBox>
+            <br />
+            <InputBox id={"email"} name="email" type="text" value={userData.email} onChange={updateInput} label={"Email"} placeHolder={"johndoe@example.com"} error={errors.emailErr} ></InputBox>
+            <br />
+            <InputBox id={"password"} name="password" type="password" value={userData.password} onChange={updateInput} label={"Password"} placeHolder={"********"} error={errors.passwordErr}></InputBox>
+            <br />
+            <InputBox id={"confirmPassword"} name="confirmPassword" type='text' value={userData.confirmPassword} onChange={updateInput} label={"Confirm password"} placeHolder={"********"}></InputBox>
+        </form>
+        <div className='button-section'>
+            <Button label={"Register"} style={registerButtonStyle} action={register} />
+            <div className='alternate-section'>
+                <p>Already have an account ?</p>
+                <Button label={"Login"} style={loginButtonStyle} action={() => { navigate('/login') }} />
             </div>
         </div>
     </div>
+</div>
 }
 
 export default SignupForm;
