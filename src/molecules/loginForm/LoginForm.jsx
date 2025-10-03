@@ -4,14 +4,13 @@ import { UserContext } from "../../config/GlobalState";
 
 import './loginForm.css';
 
-import endpoints from '../../config/API';
-
 import DataHelper from "../../utilities/DataValidator";
 
 import InputBox from "../../atoms/inputBox/InputBox";
 import Button from "../../atoms/button/Button";
 import { Navigate, useNavigate } from "react-router-dom";
-
+import APICalls from "../../utilities/APICall";
+import DataValidator from "../../utilities/DataValidator";
 
 function LoginForm(props) {
 
@@ -29,27 +28,22 @@ function LoginForm(props) {
 
     useEffect(() => {
 
-        // if email is present in the global context, populate the identity field
-        if (userState.token !== '' && userState.token !== undefined && userState.token !== 'no-token-received') {
-            navigate('/');
+        if (!DataHelper.isEmptyOrNull(userState.token)) {
+            // Navigate to homeFeed
+            console.log("Going to homeFeed, as there is a valid auth token");
         }
 
-        if (userState.email !== '' && userState.email !== undefined && userState.email !== null) {
-            setUserCredentials((prevState) => {
-                return {
-                    ...prevState,
-                    'email': userState.email
-                }
-            });
-        } else if (userState.username !== '' && userState.username !== undefined && userState.username !== null) {
-            setUserCredentials((prevState) => {
-                return {
-                    ...prevState,
-                    'email': userState.username
-                }
-            });
+        if (!DataHelper.isEmptyOrNull(DataHelper.getAuthToken())) {
+            console.log("Going to retrieve user details, as there is auth token");
+            // try to retrieve user info
+            APICalls.retrieveMyDetails(handleUserDetailRetrievalResponse);
+        } else {
+            console.log("There is no authToken, trying to fetch one using refresh-token");
+            // it refresh-token API to get one JWT token
+            APICalls.refreshMyJwtToken(handleTokenRefresh);
+            // if the refresh API returns 4XX, then ask user to login
         }
-    }, [userState])
+    }, [])
 
     const navigate = useNavigate();
     const [userCredentials, setUserCredentials] = useState(initialUserCredentials);
@@ -105,24 +99,77 @@ function LoginForm(props) {
             "password": userCredentials.password
         }
 
-        fetch(endpoints.login_endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        }).then((receivedRresponse) => {
+        APICalls.loginUser(payload, handleLoginResponse);
+    }
 
-            receivedRresponse.headers.forEach((value, key) => {
-                console.log('Key:- ', key + ', value:-  ', value, '\n');
+    function handleTokenRefresh(receivedResponse) {
+
+        const jwtToken = receivedResponse.headers.has('authorization') ? receivedResponse.headers.get('authorization') : 'no-token-received';
+
+        if (receivedResponse.ok) {
+            receivedResponse.json().then(receivedResponse => {
+                DataHelper.setAuthToken(jwtToken);
+            });
+
+            APICalls.retrieveMyDetails(handleUserDetailRetrievalResponse);
+
+        } else if (receivedResponse.status === 401) {
+            DataHelper.removeAuthToken();
+        }else if(receivedResponse.status === 403){
+            console.log("No refresh-token cookie exists for the user, please login");
+        }
+    }
+
+    function handleUserDetailRetrievalResponse(receivedResponse) {
+
+        const jwtToken = receivedResponse.headers.has('authorization') ? receivedResponse.headers.get('authorization') : 'no-token-received';
+
+        if (receivedResponse.ok) {
+            console.log('Response status:- ', receivedResponse.status);
+            // handle response
+            setGlobalStateForUser(receivedResponse, jwtToken);
+        } else if (receivedResponse.status === 400) {
+            console.log('Response status:- ', receivedResponse.status);
+            // show the field error
+            receivedResponse.json().then(response => handleException(response));
+        } else if (receivedResponse.status === 401) {
+            APICalls.refreshMyJwtToken(handleTokenRefresh);
+        } else {
+            console.log('Do something for this issue');
+            receivedResponse.json().then(response => {
+                console.log(response);
             })
+        }
+    }
 
-            const jwtToken = receivedRresponse.headers.has('authorization') ? receivedRresponse.headers.get('authorization') : 'no-token-received';
-            console.log(jwtToken);
+    function handleLoginResponse(receivedResponse) {
+        const jwtToken = receivedResponse.headers.has('authorization') ? receivedResponse.headers.get('authorization') : 'no-token-received';
 
-            if (receivedRresponse.ok) {
-                console.log('Response status:- ', receivedRresponse.status);
-                // reset any error, 
+        if (receivedResponse.ok) {
+            console.log('Response status:- ', receivedResponse.status);
+            // handle response
+            setGlobalStateForUser(receivedResponse, jwtToken);
+
+        } else if (receivedResponse.status === 400 || receivedResponse.status === 401) {
+            console.log('Response status:- ', receivedResponse.status);
+            // show the field error
+            receivedResponse.json().then(response => handleException(response));
+        } else {
+            console.log('Do something for this issue');
+            receivedResponse.json().then(response => {
+                console.log(response);
+            })
+        }
+    }
+
+    function setGlobalStateForUser(receivedResponse, jwtToken) {
+
+        const contentType = receivedResponse.headers.get('Content-Type') || '';
+
+        if (contentType !== '') {
+
+            receivedResponse.json().then((parsedResponse) => {
+
                 setErrors(() => {
                     return inititalErrors;
                 })
@@ -131,41 +178,31 @@ function LoginForm(props) {
                     return initialUserCredentials;
                 })
 
-                // handle response
-                receivedRresponse.json().then((parsedResponse) => {
-                    setUserState(() => {
-                        return {
-                            'userId': parsedResponse.userId,
-                            'firstName': parsedResponse.firstName,
-                            'lastName': parsedResponse.lastName,
-                            'email': parsedResponse.email,
-                            'username': parsedResponse.username,
-                            'role': parsedResponse.role,
-                            'joined': parsedResponse.joined,
-                            'token': jwtToken,
-                            'emailVerified': parsedResponse.emailVerified,
-                            'isLoggedIn': jwtToken !== 'no-token-received' ? true : false,
-                            'isRegistered': true
-                        }
-                    })
+                setUserState(() => {
+                    return {
+                        'userId': parsedResponse.userId,
+                        'firstName': parsedResponse.firstName,
+                        'lastName': parsedResponse.lastName,
+                        'email': parsedResponse.email,
+                        'username': parsedResponse.username,
+                        'role': parsedResponse.role,
+                        'joined': parsedResponse.joined,
+                        'token': jwtToken,
+                        'emailVerified': parsedResponse.emailVerified,
+                        'isLoggedIn': jwtToken !== 'no-token-received' ? true : false,
+                        'isRegistered': true
+                    }
                 })
 
-                // set the user data & navigate to user account
+                // set the authToken in localStorage
+                DataValidator.setAuthToken(jwtToken);
 
-            } else if (receivedRresponse.status === 400 || receivedRresponse.status === 401) {
-                console.log('Response status:- ', receivedRresponse.status);
-                // show the field error
-                receivedRresponse.json().then(response => handleException(response));
-            } else {
-                console.log('Do something for this issue');
-                receivedRresponse.json().then(response => {
-                    console.log(response);
-                })
-            }
-        }).catch(err => {
-            console.log(err);
-        });
-
+                // set the user data & navigate to homeFeed
+                navigate("/home");
+            }).catch(err => {
+                console.log("Error occured while parsing the response:- ", err);
+            })
+        }
     }
 
     function areCredentialsValid() {

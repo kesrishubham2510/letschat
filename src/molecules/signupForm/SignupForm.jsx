@@ -136,6 +136,10 @@ function SignupForm(props) {
                         return initialUserData
                     })
 
+                    // also store the token in localStorage, to avoid token loss during browser refresh
+                    // to handle availablity of auth token using useEffect 
+                    // To add service workers to show offline experience
+
                     setUserState(() => {
                         return {
                             'userId': responseBody.userId,

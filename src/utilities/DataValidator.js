@@ -44,11 +44,26 @@ function isEmptyOrNull(value){
     return (value==='' || value===null)
 }
 
+function getAuthToken(){
+    return localStorage.getItem('authToken');
+}
+
+function removeAuthToken(){
+ return localStorage.removeItem('authToken');
+}
+
+function setAuthToken(token){
+ return localStorage.setItem('authToken', token);
+}
+
 export default {
     validateFirstName,
     validateLastName,
     validateEmail,
     validatePassword,
     validateUsername,
-    isEmptyOrNull
+    isEmptyOrNull,
+    getAuthToken,
+    setAuthToken,
+    removeAuthToken
 }

@@ -1,12 +1,22 @@
 import './homeFeed.css';
 
+import { Fragment, useContext } from 'react';
+import { UserContext } from '../../config/GlobalState';
+
 import {PROFILE_EMOJI, GROUPS_EMOJI, CHATS_EMOJI, INFO_EMOJI, LOGOUT_EMOJI} from '../../assets/emoticon';
+
 import Tile from '../../atoms/tile/Tile';
 import Post from '../../molecules/Post/Post';
 
 function HomeFeed(props){
 
     // use-dispatcher can be used to detect and handle the operation 
+
+    const {userState} = useContext(UserContext);
+
+    if(userState.isLoggedIn!==true){
+        return <Fragment/>
+    }
 
     function somethingClicked(){
         console.log("something clicked!!");

@@ -5,15 +5,16 @@ import { useLocation } from 'react-router-dom';
 
 import { UserContext } from '../../config/GlobalState';
 
+import { DisplayHeader } from '../../utilities/DisplayHelper';
+
 import LeftHeader from '../../atoms/leftHeader/LeftHeader';
 import RightHeader from '../../atoms/rightHeader/RightHeader';
 
 function Header() {
 
-    const {userState} = useContext(UserContext);
     const currentLocation = useLocation();
 
-    if(currentLocation.pathname.includes('/home') && userState.isLoggedIn){
+    if(DisplayHeader(currentLocation.pathname)){
         return <Fragment/>;
     }
 

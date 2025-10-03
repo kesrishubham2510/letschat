@@ -11,8 +11,10 @@ let api_auth_host= 'localhost:8000/api-auth'
 
 const endpoints = {
     login_endpoint : protocol + api_user_host + '/login',
-    refresh_token_endpoint : protocol + api_user_host + '/refresh-token',
-    registration_endpoint : protocol + api_user_host + '/register'
+    refresh_token_endpoint : protocol + api_auth_host + '/refresh-token',
+    registration_endpoint : protocol + api_user_host + '/register',
+    update_my_info_endpoint : protocol + api_user_host + '/me',
+    get_my_info_endpoint : protocol + api_user_host + '/me'
 }
 
 export default endpoints

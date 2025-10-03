@@ -1,15 +1,14 @@
-import { useContext, Fragment } from 'react';
-import { UserContext } from '../../config/GlobalState';
+import { Fragment } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import './footer.css';
+import { DisplayFooter } from '../../utilities/DisplayHelper';
 
 function Footer() {
 
-    const { userState } = useContext(UserContext);
     const currentLocation = useLocation();
 
-    if (currentLocation.pathname.includes('/home') && userState.isLoggedIn) {
+    if (DisplayFooter(currentLocation.pathname)) {
         return <Fragment />;
     }
 

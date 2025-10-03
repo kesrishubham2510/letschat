@@ -3,10 +3,7 @@ import "./App.css";
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  useNavigate,
-  NavLink,
-  Outlet,
+  Route
 } from "react-router-dom";
 
 import GlobalStateProvider from "./config/GlobalState";
@@ -15,9 +12,9 @@ import Footer from "./molecules/footer/Footer";
 import Header from "./molecules/header/Header";
 import HomeFeed from "./pages/homeFeed/HomeFeed";
 import Landing from "./pages/landing/Landing";
-import Registration from "./pages/registration/Registration";
 import LoginForm from "./molecules/loginForm/LoginForm";
 import SignupForm from "./molecules/signupForm/SignupForm";
+import UpdateMyInfo from "./molecules/updateForm/UpdateMyInfo";
 
 function App() {
   return (
@@ -38,6 +35,10 @@ function App() {
             <Route
               path = "/home"
               element = {<HomeFeed/>}
+            />
+            <Route 
+              path= "/update"
+              element = {<UpdateMyInfo/>}
             />
           </Routes>
           <Footer />
