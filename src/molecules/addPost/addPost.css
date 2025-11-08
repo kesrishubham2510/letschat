@@ -1,0 +1,22 @@
+.addpost-tile{
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-self: center;
+}
+
+.textarea-addpost{
+    display: block;
+    width: 90%;
+    justify-self: center;
+
+}
+
+.textarea-addpost > textarea{
+    width: 90%;
+    border-radius: 25px;
+    margin-top: 10px;   
+    scroll-behavior: auto;
+    padding: 10px;
+    resize: none;
+}

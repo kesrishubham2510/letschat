@@ -6,7 +6,7 @@ function UserHeader(props) {
             <strong>{props.identity}</strong>
         </div>
         <div className='user-activity'>
-            <strong>2 hours ago</strong>
+            <strong>{props.postedAt}</strong>
         </div>
     </div>
 }

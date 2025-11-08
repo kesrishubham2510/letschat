@@ -1,14 +1,19 @@
 import './post.css';
 
+import { useContext } from 'react';
+import { UserContext } from '../../config/GlobalState';
+
 import CommentIcon from '../../assets/images/CommentIcon.png';
 import DefaultLike from '../../assets/images/DefaultLike.png';
+import LikedIcon from '../../assets/images/LikedIconWithBg.jpeg';
+import EditIcon from '../../assets/images/EditIconLean.png';
 
 import InputBox from '../../atoms/inputBox/InputBox';
 import UserHeader from '../../atoms/userMetadata/UserHeader';
 import ProfileIcon from '../../atoms/profileIcon/ProfileIcon';
 import Engagement from '../../atoms/engagement/Engagement';
 
-function Post() {
+function Post(props) {
 
     const commentBoxStyle = {
         justifySelf: 'center',
@@ -19,18 +24,22 @@ function Post() {
         backgroundColor: 'azure'
     }
 
+  
+    const { userState } = useContext(UserContext);
+
     return <div className='post'>
 
         <div className='post-header'>
             <ProfileIcon />
-            <UserHeader identity={'shubhamkeshari90@gmail.com'} />
+            <UserHeader postedAt={props.postedAt} identity={props.postedBy} />
         </div>
         <div className='post-content'>
-            <p> In today's world, technology has become deeply interwoven into every aspect of our lives, shaping the way we communicate, learn, work, and even relax. From the moment we wake up and check our phones for messages or updates, to the time we wind down at night streaming videos or reading articles online, digital tools have seamlessly integrated into our daily routines. The rapid pace of innovation has brought countless benefits, such as faster access to information, greater convenience, and more opportunities to connect across distances that were once unimaginable</p>
+            <p> {props.content}</p>
         </div>
         <div className='interaction-div'>
-            <Engagement interactionIcon={DefaultLike}/>
+            <Engagement magnitude = {props.likes} interactionIcon={props.likes===0 ? DefaultLike : LikedIcon}/>
             <Engagement interactionIcon={CommentIcon}/>
+            { userState.userId === props.authorId && <Engagement interactionIcon={EditIcon}/>}
         </div>
         <div className='post-add-comment'>
             <InputBox id={"comment"} name="comment" type="text" value={""} onChange={() => { console.log('On change listener triggered') }} label={""} inputBoxStyle={commentBoxStyle} placeHolder={'Write a Comment...'} />

@@ -63,11 +63,60 @@ function registerUser(callback, payload) {
     });
 }
 
+function readPostOfGroup(groupId, callback) {
+
+  const authToken = DataValidator.getAuthToken();
+  let endpoint = endpoints.get_posts_of_group;
+  endpoint = endpoint.replace("{groupId}", groupId)
+  
+  fetch(endpoint, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      Authorization: authToken,
+      Accept: "*/*",
+    },
+  })
+    .then(callback)
+    .catch((err) => {
+      console.log(
+        "Error occured whiele fetching the posts of the group:- ",
+        err
+      );
+    });
+}
+
+function addMyPostToGroup(groupId, postContent, callback){
+  let apiEndpoint = endpoints.add_post_to_the_group;
+  apiEndpoint = apiEndpoint.replace("{groupId}", groupId);
+  const authToken = DataValidator.getAuthToken();
+
+  const payload = {
+    "content": postContent
+  }
+
+  fetch(apiEndpoint, {
+    method : "POST",
+    credentials: "include",
+    headers: {
+      "Authorization": authToken,
+      "Accept": "*/*",
+      "Content-Type": "application/json"      
+    },
+    body: JSON.stringify(payload)
+  }).then(callback).catch(err=> {
+    console.log("Error occured while  attempting to add post to the group");
+  })
+
+}
+
 const APICalls = {
   loginUser,
   retrieveMyDetails,
   refreshMyJwtToken,
   registerUser,
+  readPostOfGroup,
+  addMyPostToGroup
 };
 
 export default APICalls;
