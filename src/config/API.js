@@ -17,7 +17,9 @@ const endpoints = {
     update_my_info_endpoint : protocol + api_user_host + '/me',
     get_my_info_endpoint : protocol + api_user_host + '/me',
     get_posts_of_group: protocol + api_group_host + '/discussion-groups/{groupId}/posts?pageSize=5&pageIndex=0',
-    add_post_to_the_group: protocol + api_group_host + '/discussion-groups/{groupId}/post'
+    add_post_to_the_group: protocol + api_group_host + '/discussion-groups/{groupId}/post',
+    add_like_to_post: protocol + api_group_host + '/post/{postId}/like',
+    remove_like_from_post: protocol + api_group_host + '/post/{postId}/unlike'
 }
 
 export default endpoints

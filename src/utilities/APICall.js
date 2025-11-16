@@ -64,11 +64,10 @@ function registerUser(callback, payload) {
 }
 
 function readPostOfGroup(groupId, callback) {
-
   const authToken = DataValidator.getAuthToken();
   let endpoint = endpoints.get_posts_of_group;
-  endpoint = endpoint.replace("{groupId}", groupId)
-  
+  endpoint = endpoint.replace("{groupId}", groupId);
+
   fetch(endpoint, {
     method: "GET",
     credentials: "include",
@@ -86,29 +85,91 @@ function readPostOfGroup(groupId, callback) {
     });
 }
 
-function addMyPostToGroup(groupId, postContent, callback){
+function addMyPostToGroup(groupId, postContent, callback) {
   let apiEndpoint = endpoints.add_post_to_the_group;
   apiEndpoint = apiEndpoint.replace("{groupId}", groupId);
   const authToken = DataValidator.getAuthToken();
 
   const payload = {
-    "content": postContent
-  }
+    content: postContent,
+  };
 
   fetch(apiEndpoint, {
-    method : "POST",
+    method: "POST",
     credentials: "include",
     headers: {
-      "Authorization": authToken,
-      "Accept": "*/*",
-      "Content-Type": "application/json"      
+      Authorization: authToken,
+      Accept: "*/*",
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload)
-  }).then(callback).catch(err=> {
-    console.log("Error occured while  attempting to add post to the group");
+    body: JSON.stringify(payload),
   })
-
+    .then(callback)
+    .catch((err) => {
+      console.log("Error occured while  attempting to add post to the group");
+    });
 }
+
+function addLikeToPost(postId, groupId, callback) {
+  let apiEndpoint = endpoints.add_like_to_post;
+  apiEndpoint = apiEndpoint.replace("{postId}", postId);
+  const authToken = DataValidator.getAuthToken();
+
+  const requestPayload = {
+    postId: "",
+    groupId: groupId,
+    userId: "",
+  };
+
+  fetch(apiEndpoint, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      Authorization: authToken,
+      Accept: "*/*",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestPayload),
+  })
+    .then(jsonResponse => callback(jsonResponse, postId))
+    .catch((err) => {
+      console.log(
+        "Something went wrong while submitting interaction(like) on the post, ex:- ",
+        err
+      );
+    });
+}
+
+function removeLikeFromThePost(postId, groupId, callback) {
+  let apiEndpoint = endpoints.remove_like_from_post;
+  apiEndpoint = apiEndpoint.replace("{postId}", postId);
+  const authToken = DataValidator.getAuthToken();
+
+  const requestPayload = {
+    postId: "",
+    groupId: groupId,
+    userId: "",
+  };
+
+  fetch(apiEndpoint, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      Authorization: authToken,
+      Accept: "*/*",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestPayload),
+  })
+    .then(jsonResponse => callback(jsonResponse, postId))
+    .catch((err) => {
+      console.log(
+        "Something went wrong while submitting interaction(like) on the post, ex:- ",
+        err
+      );
+    });
+}
+
 
 const APICalls = {
   loginUser,
@@ -116,7 +177,9 @@ const APICalls = {
   refreshMyJwtToken,
   registerUser,
   readPostOfGroup,
-  addMyPostToGroup
+  addMyPostToGroup,
+  addLikeToPost, 
+  removeLikeFromThePost
 };
 
 export default APICalls;
